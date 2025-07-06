@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Fire Tournament Hosting Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #FF5722;
+            --secondary: #3F51B5;
+            --dark: #212121;
+            --light: #FAFAFA;
+        }
+
+        body {
+            background-color: var(--light);
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .tournament-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .payment-card {
+            border-left: 5px solid var(--secondary);
+        }
+
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(63, 81, 181, 0.3);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 87, 34, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 87, 34, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 87, 34, 0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="relative">
+    <!-- Navigation -->
+    <nav class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/590d48c9-6571-4272-b616-f7491fb305c9.png" alt="Free Fire logo with flame effects in orange and yellow colors" class="rounded-full">
+                    <span class="text-xl font-bold">FreeFire Tourneys</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="hover:text-gray-200">Home</a>
+                    <a href="#tournaments" class="hover:text-gray-200">Tournaments</a>
+                    <a href="#features" class="hover:text-gray-200">Features</a>
+                    <a href="#about" class="hover:text-gray-200">About</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="loginBtn" class="px-4 py-2 bg-white text-gray-800 rounded-lg hover:bg-gray-100 transition">Login</button>
+                    <button id="registerBtn" class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-gray-800 transition">Register</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="bg-gray-900 text-white py-20">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">Host & Join Free Fire Tournaments</h1>
+                <p class="text-lg md:text-xl mb-8">Compete with players worldwide and win amazing prizes. Host tournaments and earn money with our automated system.</p>
+                <div class="flex space-x-4">
+                    <button id="hostTournamentBtn" class="px-6 py-3 bg-orange-500 rounded-lg hover:bg-orange-600 transition font-semibold">Host Tournament</button>
+                    <button id="joinTournamentBtn" class="px-6 py-3 border border-white rounded-lg hover:bg-white hover:text-gray-900 transition font-semibold">Join Now</button>
+                </div>
+            </div>
+            <div class="md:w-1/2 relative">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d0cec11b-2352-49ee-91d8-49bac4460212.png" alt="Free Fire battle scene with multiple players competing in a tournament match" class="rounded-lg shadow-2xl glow-effect">
+                <div class="absolute -bottom-5 -right-5 bg-blue-600 px-4 py-2 rounded-lg">
+                    <p class="text-white font-bold">Live Tournaments: <span id="liveTournaments">48</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-16">Why Choose Our Platform</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-blue-500 text-4xl mb-4">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Automated System</h3>
+                    <p class="text-gray-600">Our platform handles registration, payments, and tournament management automatically so you can focus on the game.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Secure Payments</h3>
+                    <p class="text-gray-600">Integrated payment gateways with automatic commission deduction for tournament hosts.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-purple-500 text-4xl mb-4">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Prize Pools</h3>
+                    <p class="text-gray-600">Competitive prize pools with multiple ways to earn money from your gaming skills.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tournaments Section -->
+    <section id="tournaments" class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold">Featured Tournaments</h2>
+                <div class="flex space-x-2">
+                    <button class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">Free</button>
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Paid</button>
+                    <button class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">Premium</button>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tournament Card 1 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden tournament-card transition duration-300">
+                    <div class="relative">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/090419d8-dedb-4119-8e2c-592aa7079ca1.png" alt="Free Fire tournament banner with 'Daily Championship' text and game characters" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-sm">
+                            Live
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-bold text-lg">Daily Championship</h3>
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">100 coins</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 mb-3">
+                            <i class="fas fa-users mr-2"></i>
+                            <span>32/50 players</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 mb-4">
+                            <i class="fas fa-trophy mr-2"></i>
+                            <span>Prize: 2000 coins</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 64%"></div>
+                        </div>
+                        <button class="w-full py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition">
+                            Register Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tournament Card 2 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden tournament-card transition duration-300">
+                    <div class="relative">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a67c0d34-3c67-467b-b87e-72fad6bab546.png" alt="Free Fire tournament banner with 'Weekly Showdown' text and competitive scene" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 rounded text-sm">
+                            Coming Soon
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-bold text-lg">Weekly Showdown</h3>
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">250 coins</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 mb-3">
+                            <i class="fas fa-users mr-2"></i>
+                            <span>12/100 players</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 mb-4">
+                            <i class="fas fa-trophy mr-2"></i>
+                            <span>Prize: 8000 coins</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 12%"></div>
+                        </div>
+                        <button class="w-full py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition">
+                            Register Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tournament Card 3 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden tournament-card transition duration-300">
+                    <div class="relative">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/fa698fa9-ff28-45c4-be88-754cd27725c2.png" alt="Free Fire tournament banner with 'Mega Clash' text and intense battle scene" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded text-sm">
+                            Completed
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-bold text-lg">Mega Clash</h3>
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">500 coins</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 mb-3">
+                            <i class="fas fa-users mr-2"></i>
+                            <span>150/150 players</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 mb-4">
+                            <i class="fas fa-trophy mr-2"></i>
+                            <span>Prize: 25000 coins</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 100%"></div>
+                        </div>
+                        <button class="w-full py-2 bg-gray-400 text-white rounded-lg font-medium cursor-not-allowed" disabled>
+                            Completed
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Host Tournament Section -->
+    <section id="host" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
+                <h2 class="text-3xl font-bold mb-6">Host Your Own Tournament</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">Tournament Details</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 mb-1">Tournament Name</label>
+                                <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1">Game Mode</label>
+                                <select class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option>Classic - Squad</option>
+                                    <option>Classic - Solo</option>
+                                    <option>Classic - Duo</option>
+                                    <option>Clash Squad</option>
+                                    <option>Custom</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1">Entry Fee (Coins)</label>
+                                <input type="number" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value="100">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1">Prize Pool (Coins)</label>
+                                <input type="number" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value="2000">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">Commission & Schedule</h3>
+                        <div class="space-y-4">
+                            <div class="payment-card bg-blue-50 p-4 rounded-lg">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="font-medium">Platform Commission</span>
+                                    <span class="font-bold">10%</span>
+                                </div>
+                                <p class="text-sm text-gray-600">Automatically deducted from entry fees when players register.</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="font-medium">Your Estimated Earnings</span>
+                                    <span class="font-bold">90 coins/player</span>
+                                </div>
+                                <p class="text-sm text-gray-600">For 100 coins entry fee (after 10% commission).</p>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1">Start Date & Time</label>
+                                <input type="datetime-local" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1">Max Players</label>
+                                <input type="number" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value="50">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4">Prize Distribution</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border rounded-lg overflow-hidden">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-2 px-4 text-left">Position</th>
+                                    <th class="py-2 px-4 text-left">Prize (Coins)</th>
+                                    <th class="py-2 px-4 text-left">% of Pool</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-t">
+                                    <td class="py-2 px-4">1st Place</td>
+                                    <td class="py-2 px-4">1000</td>
+                                    <td class="py-2 px-4">50%</td>
+                                </tr>
+                                <tr class="border-t">
+                                    <td class="py-2 px-4">2nd Place</td>
+                                    <td class="py-2 px-4">500</td>
+                                    <td class="py-2 px-4">25%</td>
+                                </tr>
+                                <tr class="border-t">
+                                    <td class="py-2 px-4">3rd Place</td>
+                                    <td class="py-2 px-4">300</td>
+                                    <td class="py-2 px-4">15%</td>
+                                </tr>
+                                <tr class="border-t">
+                                    <td class="py-2 px-4">4th-10th</td>
+                                    <td class="py-2 px-4">20 each</td>
+                                    <td class="py-2 px-4">10% total</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <button class="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition">
+                        <i class="fas fa-plus mr-2"></i> Create Tournament
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-16 bg-gray-900 text-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Platform Statistics</h2>
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="text-center p-6 bg-gray-800 rounded-lg">
+                    <div class="text-4xl font-bold mb-2 text-orange-500" id="totalTournaments">1200+</div>
+                    <div class="text-gray-400">Tournaments</div>
+                </div>
+                <div class="text-center p-6 bg-gray-800 rounded-lg">
+                    <div class="text-4xl font-bold mb-2 text-green-500" id="totalPlayers">45K+</div>
+                    <div class="text-gray-400">Players</div>
+                </div>
+                <div class="text-center p-6 bg-gray-800 rounded-lg">
+                    <div class="text-4xl font-bold mb-2 text-blue-500" id="totalPrizes">5M+</div>
+                    <div class="text-gray-400">Coins Awarded</div>
+                </div>
+                <div class="text-center p-6 bg-gray-800 rounded-lg">
+                    <div class="text-4xl font-bold mb-2 text-purple-500" id="totalHosts">600+</div>
+                    <div class="text-gray-400">Hosts</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Authentication Modals -->
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <button id="closeLoginModal" class="float-right text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="text-2xl font-bold mb-6">Login to Your Account</h2>
+
+            <div class="relative mb-6" id="adminLoginBtnDiv">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex justify-center">
+                    <button id="adminLoginBtn" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                        Admin Login (OTP)
+                    </button>
+                </div>
+            </div>
+
+            <div id="normalLoginForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-1">Email or Username</label>
+                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your email or username">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-1">Password</label>
+                    <input type="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your password">
+                    <div class="flex justify-end pt-1">
+                        <a href="#" class="text-sm text-blue-500 hover:underline">Forgot password?</a>
+                    </div>
+                </div>
+                
+                <button class="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium mb-4 transition duration-300">
+                Login
+            </button>
+            
+            <div class="text-center">
+                <p class="text-gray-600">Don't have an account? <a href="#" id="showRegisterModal" class="text-blue-500 hover:underline">Register here</a></p>
+            </div>
+            
+            <div class="mt-6">
+                <div class="relative mb-4">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">Or login with</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <button class="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50">
+                        <i class="fab fa-google text-red-500 mr-2"></i>
+                        <span>Google</span>
+                    </button>
+                    <button class="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50">
+                        <i class="fab fa-facebook text-blue-600 mr-2"></i>
+                        <span>Facebook</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <button id="closeRegisterModal" class="float-right text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="text-2xl font-bold mb-6">Create Your Account</h2>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-1">Username</label>
+                <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Choose a username">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-1">Email</label>
+                <input type="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your email">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-1">Password</label>
+                <input type="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Create a password">
+            </div>
+            
+            <div class="mb-6">
+                <label class="block text-gray-700 mb-1">Confirm Password</label>
+                <input type="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Confirm your password">
+            </div>
+            
+            <div class="mb-6">
+                <label class="flex items-center">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-500 transition duration-150 ease-in-out">
+                    <span class="ml-2 text-gray-700">I agree to the <a href="#" class="text-blue-500 hover:underline">Terms of Service</a> and <a href="#" class="text-blue-500 hover:underline">Privacy Policy</a></span>
+                </label>
+            </div>
+            
+            <button class="w-full py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium mb-4 transition duration-300">
+                Register
+            </button>
+            
+            <div class="text-center">
+                <p class="text-gray-600">Already have an account? <a href="#" id="showLoginModal" class="text-blue-500 hover:underline">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4 ">
+            <button id="closePaymentModal" class="float-right text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="text-2xl font-bold mb-6">Tournament Registration</h2>
+            
+            <div class="mb-4 p-4 bg-gray-100 rounded-lg">
+                <h3 class="font-semibold mb-2">Tournament: <span id="paymentTournamentName">Daily Championship</span></h3>
+                <p>Entry Fee: <span id="paymentTournamentFee" class="font-bold">100 coins</span></p>
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-1">Payment Method</label>
+                <div class="space-y-2">
+                    <div class="flex items-center p-3 border rounded-lg hover:border-blue-500 hover:bg-blue-50 cursor-pointer payment-option">
+                        <input type="radio" name="paymentMethod" checked class="h-4 w-4 text-blue-500">
+                        <div class="ml-3 flex-grow">
+                            <div class="font-medium">FreeFire Coins</div>
+                            <div class="text-sm text-gray-600">Current Balance: 250 coins</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 border rounded-lg hover:border-blue-500 hover:bg-blue-50 cursor-pointer payment-option">
+                        <input type="radio" name="paymentMethod" class="h-4 w-4 text-blue-500">
+                        <div class="ml-3 flex-grow">
+                            <div class="font-medium">Credit/Debit Card</div>
+                            <div class="text-sm text-gray-600">Visa, Mastercard, etc.</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 border rounded-lg hover:border-blue-500 hover:bg-blue-50 cursor-pointer payment-option">
+                        <input type="radio" name="paymentMethod" class="h-4 w-4 text-blue-500">
+                        <div class="ml-3 flex-grow">
+                            <div class="font-medium">UPI</div>
+                            <div class="text-sm text-gray-600">PayTM, PhonePe, etc.</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 border rounded-lg hover:border-blue-500 hover:bg-blue-50 cursor-pointer payment-option">
+                        <input type="radio" name="paymentMethod" class="h-4 w-4 text-blue-500">
+                        <div class="ml-3 flex-grow">
+                            <div class="font-medium">Net Banking</div>
+                            <div class="text-sm text-gray-600">All major banks supported</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="cardDetails" class="mb-4 hidden">
+                <div class="mb-3">
+                    <label class="block text-gray-700 mb-1">Card Number</label>
+                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="1234 5678 9012 3456">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 mb-1">Expiry Date</label>
+                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="MM/YY">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1">CVV</label>
+                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="123">
+                    </div>
+                </div>
+            </div>
+            
+            <div id="upiDetails" class="mb-4 hidden">
+                <div class="mb-3">
+                    <label class="block text-gray-700 mb-1">UPI ID</label>
+                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="you@upi">
+                </div>
+            </div>
+            
+            <button id="confirmPaymentBtn" class="w-full py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition duration-300 pulse">
+                <i class="fas fa-lock mr-2"></i> Confirm Payment
+            </button>
+            <div id="paymentProcessing" class="hidden text-center mt-4">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+                <p class="mt-2 text-gray-600">Processing payment...</p>
+            </div>
+            
+            <div class="mt-4 text-sm text-gray-600">
+                By proceeding, you agree to our <a href="#" class="text-blue-500 hover:underline">Terms of Service</a> and authorize the payment.
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Modal -->
+    <div id="adminModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-8 w-full max-w-5xl mx-4 max-h-[90vh] overflow-y-auto">
+            <button id="closeAdminModal" class="float-right text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="text-2xl font-bold mb-6">Admin Dashboard</h2>
+            
+            <div class="grid md:grid-cols-3 gap-4 mb-6">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-gray-600">Total Users</p>
+                            <h3 class="text-2xl font-bold">1,245</h3>
+                        </div>
+                        <i class="fas fa-users text-blue-500 text-3xl"></i>
+                    </div>
+                </div>
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-gray-600">Active Tournaments</p>
+                            <h3 class="text-2xl font-bold">48</h3>
+                        </div>
+                        <i class="fas fa-trophy text-green-500 text-3xl"></i>
+                    </div>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-lg">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-gray-600">Platform Revenue</p>
+                            <h3 class="text-2xl font-bold">12,500 coins</h3>
+                        </div>
+                        <i class="fas fa-coins text-purple-500 text-3xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold mb-4">Recent Transactions</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border rounded-lg overflow-hidden">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="py-2 px-4 text-left">ID</th>
+                                <th class="py-2 px-4 text-left">User</th>
+                                <th class="py-2 px-4 text-left">Tournament</th>
+                                <th class="py-2 px-4 text-left">Amount</th>
+                                <th class="py-2 px-4 text-left">Commission</th>
+                                <th class="py-2 px-4 text-left">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t">
+                                <td class="py-2 px-4">#32451</td>
+                                <td class="py-2 px-4">ProGamer</td>
+                                <td class="py-2 px-4">Daily Championship</td>
+                                <td class="py-2 px-4">100 coins</td>
+                                <td class="py-2 px-4">10 coins</td>
+                                <td class="py-2 px-4">2 mins ago</td>
+                            </tr>
+                            <tr class="border-t">
+                                <td class="py-2 px-4">#32450</td>
+                                <td class="py-2 px-4">FireMaster</td>
+                                <td class="py-2 px-4">Weekly Showdown</td>
+                                <td class="py-2 px-4">250 coins</td>
+                                <td class="py-2 px-4">25 coins</td>
+                                <td class="py-2 px-4">15 mins ago</td>
+                            </tr>
+                            <tr class="border-t">
+                                <td class="py-2 px-4">#32449</td>
+                                <td class="py-2 px-4">BattleKing</td>
+                                <td class="py-2 px-4">Mega Clash</td>
+                                <td class="py-2 px-4">500 coins</td>
+                                <td class="py-2 px-4">50 coins</td>
+                                <td class="py-2 px-4">1 hour ago</td>
+                            </tr>
+                            <tr class="border-t">
+                                <td class="py-2 px-4">#32448</td>
+                                <td class="py-2 px-4">EliteSniper</td>
+                                <td class="py-2 px-4">Daily Championship</td>
+                                <td class="py-2 px-4">100 coins</td>
+                                <td class="py-2 px-4">10 coins</td>
+                                <td class="py-2 px-4">2 hours ago</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Top Hosts This Month</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/55430d15-7614-4fc9-8865-d7d727dbedd8.png" alt="User profile picture - male gamer with headset covering mouth" class="rounded-full mr-3">
+                                <div>
+                                    <p class="font-medium">TourneyMaster</p>
+                                    <p class="text-sm text-gray-600">15 tournaments</p>
+                                </div>
+                            </div>
+                            <div class="text-green-500 font-bold">1,350 coins</div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d9acf7f5-d724-4e33-9ff0-a966dde00ed5.png" alt="User profile picture - female gamer with pink hair and gaming headset" class="rounded-full mr-3">
+                                <div>
+                                    <p class="font-medium">FireQueen</p>
+                                    <p class="text-sm text-gray-600">12 tournaments</p>
+                                </div>
+                            </div>
+                            <div class="text-green-500 font-bold">1,080 coins</div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5cbb4694-becf-403f-94c5-03e300a2c8b5.png" alt="User profile picture - male gamer with sunglasses and serious expression" class="rounded-full mr-3">
+                                <div>
+                                    <p class="font-medium">BattleLord</p>
+                                    <p class="text-sm text-gray-600">10 tournaments</p>
+                                </div>
+                            </div>
+                            <div class="text-green-500 font-bold">900 coins</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Platform Earnings</h3>
+                    <canvas id="earningsChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">FreeFire Tourneys</h3>
+                    <p class="text-gray-400">The ultimate platform for Free Fire tournament hosting and competition. Join thousands of players worldwide.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Tournaments</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">How It Works</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Leaderboard</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Rewards</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Refund Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Fair Play Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Connect With Us</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-discord"></i></a>
+                    </div>
+                    <p class="text-gray-400">support@freefiretourneys.com</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-sm text-gray-400 text-center">
+                <p>© 2023 FreeFire Tourneys. All rights reserved. This platform is not affiliated with Garena or Free Fire.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Admin OTP Modal -->
+    <div id="adminOTPModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <button id="closeOTPModal" class="float-right text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="text-2xl font-bold mb-6">Admin OTP Verification</h2>
+            
+            <div class="mb-4">
+                <p class="text-gray-600">OTP will be sent to your registered mobile number ending with <span class="font-bold">1524</span></p>
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-1">Enter OTP</label>
+                <div class="flex space-x-2">
+                    <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+            </div>
+            
+            <button class="w-full py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition duration-300 mb-4">
+                Verify OTP
+            </button>
+            
+            <div class="text-center">
+                <button id="sendOTPButton" class="text-blue-500 hover:underline">
+                    Resend OTP (60s)
+                </button>
+                <p class="text-gray-500 text-sm mt-2">OTP will be sent to: +91 6266601524</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Send OTP to admin mobile
+        const ADMIN_MOBILE = "6266601524";
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            document.getElementById('loginModal').classList.remove('hidden');
+        });
+
+        document.getElementById('registerBtn').addEventListener('click', function() {
+            document.getElementById('registerModal').classList.remove('hidden');
+        });
+
+        document.getElementById('hostTournamentBtn').addEventListener('click', function() {
+            document.getElementById('registerModal').classList.remove('hidden');
+        });
+
+        document.getElementById('joinTournamentBtn').addEventListener('click', function() {
+            document.getElementById('loginModal').classList.remove('hidden');
+        });
+
+        document.getElementById('closeLoginModal').addEventListener('click', function() {
+            document.getElementById('loginModal').classList.add('hidden');
+        });
+
+        document.getElementById('closeRegisterModal').addEventListener('click', function() {
+            document.getElementById('registerModal').classList.add('hidden');
+        });
+
+        document.getElementById('showRegisterModal').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('loginModal').classList.add('hidden');
+            document.getElementById('registerModal').classList.remove('hidden');
+        });
+
+        document.getElementById('showLoginModal').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('registerModal').classList.add('hidden');
+            document.getElementById('loginModal').classList.remove('hidden');
+        });
+
+        // Tournament register buttons
+        const registerButtons = document.querySelectorAll('.tournament-card button:not([disabled])');
+        registerButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const tournamentName = this.closest('.tournament-card').querySelector('h3').innerText;
+                const tournamentFee = this.closest('.tournament-card').querySelector('span.bg-blue-100').innerText;
+                
+                document.getElementById('paymentTournamentName').textContent = tournamentName;
+                document.getElementById('paymentTournamentFee').textContent = tournamentFee;
+                document.getElementById('paymentModal').classList.remove('hidden');
+            });
+        });
+
+        document.getElementById('closePaymentModal').addEventListener('click', function() {
+            document.getElementById('paymentModal').classList.add('hidden');
+        });
+
+        // Payment method selection
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        paymentOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const radio = this.querySelector('input');
+                radio.checked = true;
+                
+                // Reset all options
+                paymentOptions.forEach(opt => {
+                    opt.classList.remove('border-blue-500', 'bg-blue-50');
+                });
+                
+                // Highlight selected option
+                this.classList.add('border-blue-500', 'bg-blue-50');
+                
+                // Show relevant details
+                document.getElementById('cardDetails').classList.add('hidden');
+                document.getElementById('upiDetails').classList.add('hidden');
+                
+                if (radio.nextElementSibling.querySelector('.font-medium').textContent.includes('Card')) {
+                    document.getElementById('cardDetails').classList.remove('hidden');
+                } else if (radio.nextElementSibling.querySelector('.font-medium').textContent === 'UPI') {
+                    document.getElementById('upiDetails').classList.remove('hidden');
+                }
+            });
+        });
+
+        // Admin OTP functionality
+        document.getElementById('adminLoginBtn').addEventListener('click', function() {
+            document.getElementById('loginModal').classList.add('hidden');
+            document.getElementById('adminOTPModal').classList.remove('hidden');
+            // Call SMS Gateway API to send OTP
+            fetch('https://api.smsgateway.com/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer YOUR_API_KEY'
+                },
+                body: JSON.stringify({
+                    to: ADMIN_MOBILE,
+                    message: `Your OTP is: ${Math.floor(100000 + Math.random() * 900000)}`,
+                    sender: 'FFTOURNEY'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    console.log('OTP sent successfully');
+                } else {
+                    console.error('Failed to send OTP');
+                }
+            });
+            
+            // Countdown for OTP resend
+            let timeLeft = 60;
+            const resendBtn = document.getElementById('sendOTPButton');
+            resendBtn.disabled = true;
+            
+            const timer = setInterval(() => {
+                resendBtn.textContent = `Resend OTP (${timeLeft}s)`;
+                timeLeft--;
+                
+                if(timeLeft < 0) {
+                    clearInterval(timer);
+                    resendBtn.textContent = 'Resend OTP';
+                    resendBtn.disabled = false;
+                }
+            }, 1000);
+        });
+
+        document.getElementById('closeOTPModal').addEventListener('click', function() {
+            document.getElementById('adminOTPModal').classList.add('hidden');
+            document.getElementById('loginModal').classList.remove('hidden');
+        });
+
+        // OTP input focus shifting
+        const otpInputs = document.querySelectorAll('#adminOTPModal input[type="text"]');
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', function() {
+                if(this.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index+1].focus();
+                }
+            });
+            
+            input.addEventListener('keydown', function(e) {
+                if(e.key === "Backspace" && this.value.length === 0 && index > 0) {
+                    otpInputs[index-1].focus();
+                }
+            });
+        });
+
+        // Payment processing
+        document.getElementById('confirmPaymentBtn').addEventListener('click', function() {
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').nextElementSibling.querySelector('.font-medium').textContent;
+            const amount = document.getElementById('paymentTournamentFee').textContent;
+            
+            document.getElementById('paymentProcessing').classList.remove('hidden');
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                document.getElementById('paymentProcessing').classList.add('hidden');
+                alert(`Payment of ${amount} via ${paymentMethod} successful!`);
+                document.getElementById('paymentModal').classList.add('hidden');
+            }, 2000);
+        });
+
+        // Verify OTP - in real implementation this would verify with server
+        document.getElementById('adminOTPModal').querySelector('button.bg-green-500').addEventListener('click', function() {
+            document.getElementById('adminOTPModal').classList.add('hidden');
+            document.getElementById('adminModal').classList.remove('hidden');
+            
+            // Initialize chart
+            const ctx = document.getElementById('earningsChart').getContext('2d');
+            
+            // Initialize chart
+            const ctx = document.getElementById('earningsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                    datasets: [{
+                        label: 'Platform Earnings (coins)',
+                        data: [3200, 4500, 5000, 5800, 6200, 7500, 9200],
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        borderColor: 'rgba(79, 70, 229, 1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+
+        document.getElementById('closeAdminModal').addEventListener('click', function() {
+            document.getElementById('adminModal').classList.add('hidden');
+        });
+
+        // Simulate numbers increasing
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start) + "+";
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Start animations when scrolling to statistics section
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateValue('totalTournaments', 0, 1200, 1000);
+                    animateValue('totalPlayers', 0, 45, 1000);
+                    animateValue('totalPrizes', 0, 5, 1000);
+                    animateValue('totalHosts', 0, 600, 1000);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {threshold: 0.5});
+
+        observer.observe(document.querySelector('.bg-gray-900'));
+    </script>
+</body>
+</html>
