@@ -326,7 +326,7 @@
                     </div>
                 </div>
                 <div class="mt-8">
-                    <button class="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition">
+                    <button id="createTournamentBtn" class="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition">
                         <i class="fas fa-plus mr-2"></i> Create Tournament
                     </button>
                 </div>
@@ -393,9 +393,9 @@
                     </div>
                 </div>
                 
-                <button class="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium mb-4 transition duration-300">
-                Login
-            </button>
+                <button id="realLoginBtn" class="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium mb-4 transition duration-300">
+                    Login
+                </button>
             
             <div class="text-center">
                 <p class="text-gray-600">Don't have an account? <a href="#" id="showRegisterModal" class="text-blue-500 hover:underline">Register here</a></p>
@@ -771,7 +771,16 @@
     </div>
 
     <script>
-        // Send OTP to admin mobile
+        // Backend API Configuration
+        const API_BASE_URL = 'https://your-backend-api.com';
+        const ENDPOINTS = {
+            login: '/auth/login',
+            register: '/auth/register',
+            tournaments: '/tournaments',
+            createTournament: '/tournaments/create',
+            joinTournament: '/tournaments/join',
+            payment: '/payment/process'
+        };
         const ADMIN_MOBILE = "6266601524";
         document.getElementById('loginBtn').addEventListener('click', function() {
             document.getElementById('loginModal').classList.remove('hidden');
@@ -930,6 +939,74 @@
                 alert(`Payment of ${amount} via ${paymentMethod} successful!`);
                 document.getElementById('paymentModal').classList.add('hidden');
             }, 2000);
+        });
+
+        // Real backend integration
+        document.getElementById('realLoginBtn').addEventListener('click', async function() {
+            const email = document.querySelector('#normalLoginForm input[type="text"]').value;
+            const password = document.querySelector('#normalLoginForm input[type="password"]').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}${ENDPOINTS.login}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    localStorage.setItem('authToken', data.token);
+                    document.getElementById('loginModal').classList.add('hidden');
+                    alert('Login successful!');
+                } else {
+                    alert('Login failed: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed. Please try again.');
+            }
+        });
+
+        document.getElementById('createTournamentBtn').addEventListener('click', async function() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                alert('Please login first');
+                document.getElementById('loginModal').classList.remove('hidden');
+                return;
+            }
+
+            const tournamentData = {
+                name: document.querySelector('#host input[type="text"]').value,
+                gameMode: document.querySelector('#host select').value,
+                entryFee: document.querySelector('#host input[type="number"]').value,
+                prizePool: document.querySelectorAll('#host input[type="number"]')[1].value,
+                startTime: document.querySelector('#host input[type="datetime-local"]').value,
+                maxPlayers: document.querySelectorAll('#host input[type="number"]')[2].value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}${ENDPOINTS.createTournament}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(tournamentData)
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    alert('Tournament created successfully!');
+                    // Refresh tournament list
+                } else {
+                    alert('Failed to create tournament: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Tournament creation error:', error);
+                alert('Failed to create tournament. Please try again.');
+            }
         });
 
         // Verify OTP - in real implementation this would verify with server
